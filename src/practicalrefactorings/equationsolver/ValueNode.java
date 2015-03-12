@@ -5,10 +5,12 @@
  */
 package practicalrefactorings.equationsolver;
 
-public class ValueNode extends Node {
+public class ValueNode implements Evaluable {
+
+	private int value;
 
 	public ValueNode(int value) {
-		super(value);
+		this.value = value;
 	}
 
 	@Override

@@ -5,10 +5,14 @@
  */
 package practicalrefactorings.equationsolver;
 
-public class OperatorNode extends Node {
+public class OperatorNode implements Evaluable {
+
+	private char operator;
+	private Evaluable left;
+	private Evaluable right;
 
 	public OperatorNode(char symbol) {
-		super(symbol);
+		this.operator = symbol;
 	}
 
 	@Override
@@ -32,11 +36,11 @@ public class OperatorNode extends Node {
 		return "(" + left.representation() + " " + operator + " " + right.representation() + ")";
 	}
 
-	public void setLeft(Node left) {
+	public void setLeft(Evaluable left) {
 		this.left = left;
 	}
 
-	public void setRight(Node right) {
+	public void setRight(Evaluable right) {
 		this.right = right;
 	}
 
