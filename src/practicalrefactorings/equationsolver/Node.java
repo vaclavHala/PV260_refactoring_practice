@@ -45,14 +45,4 @@ public abstract class Node implements Evaluable {
 		}
 		this.right = right;
 	}
-
-	@Override
-	public String representation() {
-		if (isNumber) {
-			return String.valueOf(value);
-		} else {
-			return "(" + left.representation() + " " + operator + " " + right.representation() + ")";
-		}
-	}
-
 }

@@ -27,4 +27,9 @@ public class OperatorNode extends Node {
 		}
 	}
 
+	@Override
+	public String representation() {
+		return "(" + left.representation() + " " + operator + " " + right.representation() + ")";
+	}
+
 }

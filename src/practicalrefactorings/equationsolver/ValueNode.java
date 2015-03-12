@@ -16,4 +16,9 @@ public class ValueNode extends Node {
 		return value;
 	}
 
+	@Override
+	public String representation() {
+		return String.valueOf(value);
+	}
+
 }
