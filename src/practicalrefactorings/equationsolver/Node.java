@@ -25,24 +25,4 @@ public abstract class Node implements Evaluable {
 		this.operator = symbol;
 	}
 
-	public boolean hasLeft() {
-		if (isNumber) {
-			throw new IllegalStateException("Numbers dont have children");
-		}
-		return left != null;
-	}
-
-	public void setLeft(Node left) {
-		if (isNumber) {
-			throw new IllegalStateException("Numbers dont have children");
-		}
-		this.left = left;
-	}
-
-	public void setRight(Node right) {
-		if (isNumber) {
-			throw new IllegalStateException("Numbers dont have children");
-		}
-		this.right = right;
-	}
 }
