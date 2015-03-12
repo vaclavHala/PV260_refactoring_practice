@@ -5,7 +5,7 @@
  */
 package practicalrefactorings.equationsolver;
 
-public class Node implements Evaluable {
+public abstract class Node implements Evaluable {
 
 	private boolean isNumber;
 	private int value;

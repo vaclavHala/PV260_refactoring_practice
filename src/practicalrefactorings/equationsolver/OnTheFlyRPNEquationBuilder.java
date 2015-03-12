@@ -15,11 +15,11 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 	public RPNEquationBuilder push(String token) {
 		try {
 			int value = Integer.parseInt(token);
-			Node number = new Node(value);
+			Node number = new ValueNode(value);
 			stack.push(number);
 		} catch (NumberFormatException e) {
 			if (token.length() == 1) {
-				Node operator = new Node(token.charAt(0));
+				Node operator = new OperatorNode(token.charAt(0));
 				if (stack.isEmpty()) {
 					throw new IllegalStateException("Nothing left on the stack for operand");
 				}
