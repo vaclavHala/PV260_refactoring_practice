@@ -8,10 +8,10 @@ package practicalrefactorings.equationsolver;
 public abstract class Node implements Evaluable {
 
 	private boolean isNumber;
-	private int value;
-	private char operator;
-	private Node left;
-	private Node right;
+	protected int value;
+	protected char operator;
+	protected Node left;
+	protected Node right;
 
 	/** Construct number node */
 	public Node(int value) {
@@ -44,26 +44,6 @@ public abstract class Node implements Evaluable {
 			throw new IllegalStateException("Numbers dont have children");
 		}
 		this.right = right;
-	}
-
-	@Override
-	public int evaluate() {
-		if (isNumber) {
-			return value;
-		} else {
-			switch (operator) {
-				case '+':
-					return left.evaluate() + right.evaluate();
-				case '-':
-					return left.evaluate() - right.evaluate();
-				case '*':
-					return left.evaluate() * right.evaluate();
-				case '/':
-					return left.evaluate() / right.evaluate();
-				default:
-					throw new IllegalStateException("Unknown operator: " + operator);
-			}
-		}
 	}
 
 	@Override

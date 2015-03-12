@@ -11,4 +11,20 @@ public class OperatorNode extends Node {
 		super(symbol);
 	}
 
+	@Override
+	public int evaluate() {
+		switch (operator) {
+			case '+':
+				return left.evaluate() + right.evaluate();
+			case '-':
+				return left.evaluate() - right.evaluate();
+			case '*':
+				return left.evaluate() * right.evaluate();
+			case '/':
+				return left.evaluate() / right.evaluate();
+			default:
+				throw new IllegalStateException("Unknown operator: " + operator);
+		}
+	}
+
 }

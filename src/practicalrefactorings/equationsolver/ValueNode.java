@@ -11,4 +11,9 @@ public class ValueNode extends Node {
 		super(value);
 	}
 
+	@Override
+	public int evaluate() {
+		return value;
+	}
+
 }
