@@ -31,7 +31,7 @@ public class Floodfill {
 		if (!replacingColor.equals(color)) {
 			while (!left.isEmpty()) {
 				Position at = left.poll();
-				if (at.x() >= 0 && at.x() < copy.width() && at.y() >= 0 && at.y() < copy.height()) {
+				if (isIn(at, copy)) {
 					copy.set(color, at.x(), at.y());
 					Collection<Position> neighbors = asList(
 							new Position(at.x() + 1, at.y()),
@@ -41,7 +41,7 @@ public class Floodfill {
 					);
 					Collection<Position> uncoloredNeighbors = new ArrayList<>();
 					for (Position position : neighbors) {
-						if (position.x() >= 0 && position.x() < copy.width() && position.y() >= 0 && position.y() < copy.height()) {
+						if (isIn(position, copy)) {
 							Color colorAtPosition = copy.get(position.x(), position.y());
 							if (colorAtPosition.equals(replacingColor)) {
 								uncoloredNeighbors.add(position);
