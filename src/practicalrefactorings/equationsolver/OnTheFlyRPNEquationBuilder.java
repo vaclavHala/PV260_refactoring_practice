@@ -13,11 +13,11 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 
 	@Override
 	public RPNEquationBuilder push(String token) {
-		try {
+		if (isNumber(token)) {
 			int value = Integer.parseInt(token);
 			Evaluable number = new ValueNode(value);
 			stack.push(number);
-		} catch (NumberFormatException e) {
+		} else {
 			if (token.length() == 1) {
 				OperatorNode operator = createOperator(token.charAt(0));
 				if (stack.isEmpty()) {
@@ -35,8 +35,16 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 				throw new IllegalArgumentException("Dont understand token: " + token);
 			}
 		}
-
 		return this;
+	}
+
+	private boolean isNumber(String token) {
+		try {
+			Integer.parseInt(token);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	private OperatorNode createOperator(char token) {
