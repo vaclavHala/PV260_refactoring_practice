@@ -28,22 +28,21 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 	}
 
 	private void pushOperator(String token) {
-		if (token.length() == 1) {
-			OperatorNode operator = createOperator(token.charAt(0));
-			if (stack.isEmpty()) {
-				throw new IllegalStateException("Nothing left on the stack for operand");
-			}
-			Evaluable right = stack.pop();
-			if (stack.isEmpty()) {
-				throw new IllegalStateException("Nothing left on the stack for operand");
-			}
-			Evaluable left = stack.pop();
-			operator.setLeft(left);
-			operator.setRight(right);
-			stack.push(operator);
-		} else {
+		if (token.length() != 1) {
 			throw new IllegalArgumentException("Dont understand token: " + token);
 		}
+		OperatorNode operator = createOperator(token.charAt(0));
+		if (stack.isEmpty()) {
+			throw new IllegalStateException("Nothing left on the stack for operand");
+		}
+		Evaluable right = stack.pop();
+		if (stack.isEmpty()) {
+			throw new IllegalStateException("Nothing left on the stack for operand");
+		}
+		Evaluable left = stack.pop();
+		operator.setLeft(left);
+		operator.setRight(right);
+		stack.push(operator);
 	}
 
 	private boolean isNumber(String token) {
