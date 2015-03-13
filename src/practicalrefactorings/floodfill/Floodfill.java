@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import static java.util.Arrays.asList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class Floodfill {
@@ -28,12 +29,7 @@ public class Floodfill {
 				Position at = left.poll();
 				if (isIn(at, copy)) {
 					copy.set(color, at.x(), at.y());
-					Collection<Position> neighbors = asList(
-							new Position(at.x() + 1, at.y()),
-							new Position(at.x(), at.y() + 1),
-							new Position(at.x() - 1, at.y()),
-							new Position(at.x(), at.y() - 1)
-					);
+					Collection<Position> neighbors = neighborsOf(at);
 					Collection<Position> uncoloredNeighbors = new ArrayList<>();
 					for (Position position : neighbors) {
 						if (isIn(position, copy)) {
@@ -49,6 +45,15 @@ public class Floodfill {
 			}
 		}
 		return copy;
+	}
+
+	private List<Position> neighborsOf(Position position) {
+		return asList(
+				new Position(position.x() + 1, position.y()),
+				new Position(position.x(), position.y() + 1),
+				new Position(position.x() - 1, position.y()),
+				new Position(position.x(), position.y() - 1)
+		);
 	}
 
 	private <T> Grid<T> copy(Grid<T> original) {
