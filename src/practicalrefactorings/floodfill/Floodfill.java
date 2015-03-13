@@ -15,14 +15,14 @@ import java.util.Queue;
 
 public class Floodfill {
 
-	public Grid<Color> fillAt(Grid<Color> original, int startX, int startY, Color color) {
+	public Grid<Color> fillAt(Grid<Color> original, int startX, int startY, Color toColor) {
 		Position start = new Position(startX, startY);
 		if (!isIn(start, original)) {
 			throw new IndexOutOfBoundsException("Got " + new Position(startX, startY) + " but grid is only " + original.width() + "x" + original.height());
 		}
 		Grid<Color> copy = copy(original);
 		Color replacingColor = original.get(startX, startY);
-		if (replacingColor.equals(color)) {
+		if (replacingColor.equals(toColor)) {
 			return copy;
 		}
 		Queue<Position> left = new LinkedList<>();
@@ -30,21 +30,21 @@ public class Floodfill {
 
 		while (!left.isEmpty()) {
 			Position at = left.poll();
-			if (isIn(at, copy)) {
-				copy.set(color, at.x(), at.y());
-				Collection<Position> neighbors = neighborsOf(at);
-				Collection<Position> uncoloredNeighbors = new ArrayList<>();
-				for (Position position : neighbors) {
-					if (isIn(position, copy)) {
-						Color colorAtPosition = copy.get(position.x(), position.y());
-						if (colorAtPosition.equals(replacingColor)) {
-							uncoloredNeighbors.add(position);
-						}
+			if (!isIn(at, copy)) {
+				continue;
+			}
+			copy.set(toColor, at.x(), at.y());
+			Collection<Position> neighbors = neighborsOf(at);
+			Collection<Position> uncoloredNeighbors = new ArrayList<>();
+			for (Position position : neighbors) {
+				if (isIn(position, copy)) {
+					Color colorAtPosition = copy.get(position.x(), position.y());
+					if (colorAtPosition.equals(replacingColor)) {
+						uncoloredNeighbors.add(position);
 					}
 				}
-
-				left.addAll(uncoloredNeighbors);
 			}
+			left.addAll(uncoloredNeighbors);
 		}
 		return copy;
 	}
