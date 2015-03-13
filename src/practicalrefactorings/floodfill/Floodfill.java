@@ -8,7 +8,6 @@ package practicalrefactorings.floodfill;
 import java.awt.Color;
 import java.util.ArrayList;
 import static java.util.Arrays.asList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -31,19 +30,14 @@ public class Floodfill {
 		while (!left.isEmpty()) {
 			Position at = left.poll();
 			if (!isIn(at, copy)) {
+				//this happens when we are looking at position neighborOf
+				//invoked on border position produced
 				continue;
 			}
 			copy.set(toColor, at.x(), at.y());
-			Collection<Position> neighbors = neighborsOf(at);
-			Collection<Position> uncoloredNeighbors = new ArrayList<>();
-			for (Position position : neighbors) {
-				if (isIn(position, copy)) {
-					Color colorAtPosition = copy.get(position.x(), position.y());
-					if (colorAtPosition.equals(replacingColor)) {
-						uncoloredNeighbors.add(position);
-					}
-				}
-			}
+			List<Position> neighbors = neighborsOf(at);
+			List<Position> uncoloredNeighbors = selectNeighborsToFillNext(neighbors, copy, replacingColor);
+
 			left.addAll(uncoloredNeighbors);
 		}
 		return copy;
@@ -56,6 +50,19 @@ public class Floodfill {
 				new Position(position.x() - 1, position.y()),
 				new Position(position.x(), position.y() - 1)
 		);
+	}
+
+	private List<Position> selectNeighborsToFillNext(List<Position> neighbors, Grid<Color> fillingGrid, Color replacingColor) {
+		List<Position> selected = new ArrayList<>();
+		for (Position position : neighbors) {
+			if (isIn(position, fillingGrid)) {
+				Color colorAtPosition = fillingGrid.get(position.x(), position.y());
+				if (colorAtPosition.equals(replacingColor)) {
+					selected.add(position);
+				}
+			}
+		}
+		return selected;
 	}
 
 	private <T> Grid<T> copy(Grid<T> original) {
