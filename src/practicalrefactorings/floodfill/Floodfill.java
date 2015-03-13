@@ -21,27 +21,29 @@ public class Floodfill {
 			throw new IndexOutOfBoundsException("Got " + new Position(startX, startY) + " but grid is only " + original.width() + "x" + original.height());
 		}
 		Grid<Color> copy = copy(original);
+		Color replacingColor = original.get(startX, startY);
+		if (replacingColor.equals(color)) {
+			return copy;
+		}
 		Queue<Position> left = new LinkedList<>();
 		left.add(new Position(startX, startY));
-		Color replacingColor = original.get(startX, startY);
-		if (!replacingColor.equals(color)) {
-			while (!left.isEmpty()) {
-				Position at = left.poll();
-				if (isIn(at, copy)) {
-					copy.set(color, at.x(), at.y());
-					Collection<Position> neighbors = neighborsOf(at);
-					Collection<Position> uncoloredNeighbors = new ArrayList<>();
-					for (Position position : neighbors) {
-						if (isIn(position, copy)) {
-							Color colorAtPosition = copy.get(position.x(), position.y());
-							if (colorAtPosition.equals(replacingColor)) {
-								uncoloredNeighbors.add(position);
-							}
+
+		while (!left.isEmpty()) {
+			Position at = left.poll();
+			if (isIn(at, copy)) {
+				copy.set(color, at.x(), at.y());
+				Collection<Position> neighbors = neighborsOf(at);
+				Collection<Position> uncoloredNeighbors = new ArrayList<>();
+				for (Position position : neighbors) {
+					if (isIn(position, copy)) {
+						Color colorAtPosition = copy.get(position.x(), position.y());
+						if (colorAtPosition.equals(replacingColor)) {
+							uncoloredNeighbors.add(position);
 						}
 					}
-
-					left.addAll(uncoloredNeighbors);
 				}
+
+				left.addAll(uncoloredNeighbors);
 			}
 		}
 		return copy;
