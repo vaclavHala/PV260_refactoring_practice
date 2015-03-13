@@ -19,12 +19,7 @@ public class Floodfill {
 		if (!isIn(start, original)) {
 			throw new IndexOutOfBoundsException("Got " + new Position(startX, startY) + " but grid is only " + original.width() + "x" + original.height());
 		}
-		Grid<Color> copy = new ArrayBackedGrid<>(original.width(), original.height());
-		for (int x = 0; x < original.width(); x++) {
-			for (int y = 0; y < original.height(); y++) {
-				copy.set(original.get(x, y), x, y);
-			}
-		}
+		Grid<Color> copy = copy(original);
 		Queue<Position> left = new LinkedList<>();
 		left.add(new Position(startX, startY));
 		Color replacingColor = original.get(startX, startY);
@@ -51,6 +46,16 @@ public class Floodfill {
 
 					left.addAll(uncoloredNeighbors);
 				}
+			}
+		}
+		return copy;
+	}
+
+	private <T> Grid<T> copy(Grid<T> original) {
+		Grid<T> copy = new ArrayBackedGrid<>(original.width(), original.height());
+		for (int x = 0; x < original.width(); x++) {
+			for (int y = 0; y < original.height(); y++) {
+				copy.set(original.get(x, y), x, y);
 			}
 		}
 		return copy;
