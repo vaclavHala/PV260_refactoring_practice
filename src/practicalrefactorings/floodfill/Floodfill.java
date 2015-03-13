@@ -35,9 +35,7 @@ public class Floodfill {
 				continue;
 			}
 			copy.set(toColor, at.x(), at.y());
-			List<Position> neighbors = neighborsOf(at);
-			List<Position> uncoloredNeighbors = selectNeighborsToFillNext(neighbors, copy, replacingColor);
-
+			List<Position> uncoloredNeighbors = selectNeighborsToFillNext(at, copy, replacingColor);
 			left.addAll(uncoloredNeighbors);
 		}
 		return copy;
@@ -52,9 +50,9 @@ public class Floodfill {
 		);
 	}
 
-	private List<Position> selectNeighborsToFillNext(List<Position> neighbors, Grid<Color> fillingGrid, Color replacingColor) {
+	private List<Position> selectNeighborsToFillNext(Position center, Grid<Color> fillingGrid, Color replacingColor) {
 		List<Position> selected = new ArrayList<>();
-		for (Position position : neighbors) {
+		for (Position position : neighborsOf(center)) {
 			if (isIn(position, fillingGrid)) {
 				Color colorAtPosition = fillingGrid.get(position.x(), position.y());
 				if (colorAtPosition.equals(replacingColor)) {
