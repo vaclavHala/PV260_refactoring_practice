@@ -5,30 +5,14 @@
  */
 package practicalrefactorings.equationsolver;
 
-public class OperatorNode implements Evaluable {
+public abstract class OperatorNode implements Evaluable {
 
 	private char operator;
-	private Evaluable left;
-	private Evaluable right;
+	protected Evaluable left;
+	protected Evaluable right;
 
 	public OperatorNode(char symbol) {
 		this.operator = symbol;
-	}
-
-	@Override
-	public int evaluate() {
-		switch (operator) {
-			case '+':
-				return left.evaluate() + right.evaluate();
-			case '-':
-				return left.evaluate() - right.evaluate();
-			case '*':
-				return left.evaluate() * right.evaluate();
-			case '/':
-				return left.evaluate() / right.evaluate();
-			default:
-				throw new IllegalStateException("Unknown operator: " + operator);
-		}
 	}
 
 	@Override

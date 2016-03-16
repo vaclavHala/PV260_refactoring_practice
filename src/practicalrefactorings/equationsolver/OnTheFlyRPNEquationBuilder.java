@@ -19,7 +19,23 @@ public class OnTheFlyRPNEquationBuilder implements RPNEquationBuilder {
 			stack.push(number);
 		} catch (NumberFormatException e) {
 			if (token.length() == 1) {
-				OperatorNode operator = new OperatorNode(token.charAt(0));
+				OperatorNode operator = null;
+				switch (token.charAt(0)) {
+					case '+':
+						operator = new PlusNode();
+						break;
+					case '-':
+						operator = new MinusNode();
+						break;
+					case '*':
+						operator = new MultNode();
+						break;
+					case '/':
+						operator = new DivNode();
+						break;
+					default:
+						throw new IllegalStateException("Unknown token: " + token.charAt(0));
+				}
 				if (stack.isEmpty()) {
 					throw new IllegalStateException("Nothing left on the stack for operand");
 				}
